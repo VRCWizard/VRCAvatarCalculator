@@ -10,10 +10,16 @@ There is no unity project included for the actual calculator but you can make yo
 - Get a Calculator model.
 - Add Contact Receivers to the buttons with the approriate parameter and collision tag (finger)
     - Example parameter would be ```Calc1``` coresponding pressing the "1" button. All possible contact reciever parameters listed below. 
+ - Install [Killfrenzy 1.2.7](https://github.com/killfrenzy96/KillFrenzyAvatarText/releases/tag/1.2.7) avatar text on your avatar and move the constrant to the calculator. (remove the freeze rotation axes)
+
+
 
 ![image](https://user-images.githubusercontent.com/101527472/229594372-b5796979-f9a8-4a12-81ad-ce36c2405dd4.png)
 
 ![image](https://user-images.githubusercontent.com/101527472/229594556-e3065161-13f2-41c2-9958-136b9e32d774.png)
+
+![image](https://user-images.githubusercontent.com/101527472/229597107-71606b10-10dd-41f1-a056-4c712bd91e39.png)
+
 
 
 All the possible contact receiver parameters
