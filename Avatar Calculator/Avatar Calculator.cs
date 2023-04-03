@@ -12,6 +12,7 @@ namespace TTSVoiceWizard3._0
         private string currentCalculation = "";
         public CoreOSC.UDPSender OSCSender = new CoreOSC.UDPSender("127.0.0.1", 9000);//9000 = vrchat receiver
         public System.Threading.Timer VRCCounterTimer;
+        public System.Threading.Timer KATTimer;
         public VoiceWizardWindow()
         {
             InitializeComponent();
@@ -26,6 +27,8 @@ namespace TTSVoiceWizard3._0
 
             VRCCounterTimer = new System.Threading.Timer(VRCCountertimertick);
             VRCCounterTimer.Change(1600, 0);
+            KATTimer = new System.Threading.Timer(KATtimertick);
+            KATTimer.Change(500, 0);
 
         }
 
@@ -38,32 +41,33 @@ namespace TTSVoiceWizard3._0
             catch { MessageBox.Show("Another App is already listening on port 9001"); }
 
         }
-        public void VRCCountertimertick(object sender)
-        {
-
-            Thread t = new Thread(doVRCCounterTimerTick);
-            t.Start();
-        }
+        public void VRCCountertimertick(object sender) { Thread t = new Thread(doVRCCounterTimerTick); t.Start(); }
         private void doVRCCounterTimerTick()
         {
-
             if (materialSwitch1.Checked == true)
             {
-
-
                 var text = "";
                 text = currentCalculation;
-
                 var messageSpeechBubble = new OscMessage("/chatbox/input", text, true, false);
                 OSCSender.Send(messageSpeechBubble);
             }
-
-
-
             VRCCounterTimer.Change(1600, 0);
-
-
-
+        }
+        public void KATtimertick(object sender) { Thread t = new Thread(doKATTimerTick); t.Start(); }
+        private void doKATTimerTick()
+        {
+          //  if (materialSwitch1.Checked == true)
+          //  {
+                var text = "";
+            this.Invoke((MethodInvoker)delegate ()
+            {
+                text = textBoxOutput.Text;
+            });
+            // var messageSpeechBubble = new OscMessage("/chatbox/input", text, true, false);
+            //  OSCSender.Send(messageSpeechBubble);
+            Task.Run(() => outputVRChat(text));
+          //  }
+            KATTimer.Change(500, 0);
         }
 
         private void button_Click(object sender, EventArgs e)
@@ -74,7 +78,7 @@ namespace TTSVoiceWizard3._0
             // Display the current calculation back to the user
             textBoxOutput.Text = currentCalculation;
 
-            Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+          //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
         }
         private void button_Equals_Click(object sender, EventArgs e)
         {
@@ -86,36 +90,38 @@ namespace TTSVoiceWizard3._0
                 currentCalculation = textBoxOutput.Text;
                 var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
                 OSCSender.Send(message1);
-                Thread.Sleep(100);
-                Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+              //  Thread.Sleep(100);
+              //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
 
             }
             catch (Exception ex)
             {
                 textBoxOutput.Text = "0";
                 currentCalculation = "";
-                var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
-                OSCSender.Send(message1);
-                Thread.Sleep(100);
-                Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+               // var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+               // OSCSender.Send(message1);
+              //  Thread.Sleep(100);
+              //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
             }
         }
         private void button_Clear_Click(object sender, EventArgs e)
         {
-            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
-            OSCSender.Send(message1);
-            Thread.Sleep(100);
+           
+            
             // Reset the calculation and empty the textbox
             textBoxOutput.Text = "0";
             currentCalculation = "";
-            
-            Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+
+            //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+            //  var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+            // OSCSender.Send(message1);
+            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+            OSCSender.Send(message1);
         }
         private void button_ClearEntry_Click(object sender, EventArgs e)
         {
-            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
-            OSCSender.Send(message1);
-            Thread.Sleep(100);
+            
+            
             // If the calculation is not empty, remove the last number/operator entered
             if (currentCalculation.Length > 0)
             {
@@ -124,7 +130,9 @@ namespace TTSVoiceWizard3._0
 
             // Re-display the calculation onto the screen
             textBoxOutput.Text = currentCalculation;
-            Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+            //    Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
+            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+            OSCSender.Send(message1);
         }
 
         public void OSCReciever()
@@ -236,7 +244,7 @@ namespace TTSVoiceWizard3._0
                     //  }
                     if (line.Length + word.Length >= maximumLineLength)
                     {
-                        System.Diagnostics.Debug.WriteLine(line.ToString());
+                       // System.Diagnostics.Debug.WriteLine(line.ToString());
                         if (line.ToString().Length <= 32)
                         {
                             perfectString += line.ToString();
@@ -253,7 +261,7 @@ namespace TTSVoiceWizard3._0
                     line.AppendFormat("{0}{1}", line.Length > 0 ? " " : "", word);
                 }
 
-                System.Diagnostics.Debug.WriteLine(line.ToString());
+               // System.Diagnostics.Debug.WriteLine(line.ToString());
                 perfectString += line.ToString();
                 return perfectString;
             }
@@ -435,8 +443,10 @@ namespace TTSVoiceWizard3._0
             }
             lastDateTime = DateTime.Now;
 
-
-           // OSCSender.Send(message1);
+           // if (currentCalculation == "")
+         //   {
+         //       OSCSender.Send(message1);
+        //    }
 
 
 
