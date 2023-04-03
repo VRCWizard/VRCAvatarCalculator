@@ -2,7 +2,14 @@
 Do math with a basic calculator in VRChat. You can interact with the Calculator in VR or with the desktop UI.
 
 
-There is no unity project for the actual calculator but you can make your own.
+![image](https://user-images.githubusercontent.com/101527472/229595934-64864168-13f4-4a41-b421-a5e3c035cda4.png)
+
+
+
+There is no unity project included for the actual calculator but you can make your own.
+- Get a Calculator model.
+- Add Contact Receivers to the buttons with the approriate parameter and collision tag (finger)
+    - Example parameter would be ```Calc1``` coresponding pressing the "1" button. All possible contact reciever parameters listed below. 
 
 ![image](https://user-images.githubusercontent.com/101527472/229594372-b5796979-f9a8-4a12-81ad-ce36c2405dd4.png)
 
@@ -33,3 +40,7 @@ All the possible contact receiver parameters
 /avatar/parameters/CalcDiv
 ```
 
+## Need Help / Have Questions / Wanna make suggestions?
+-  Join the [Discord Server](https://discord.gg/YjgR9SWPnW) <br />
+  
+<a href="https://discord.gg/YjgR9SWPnW"><img src="https://discordapp.com/api/guilds/681732152517591048/widget.png?style=banner2" /></a>
