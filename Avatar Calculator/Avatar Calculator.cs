@@ -169,38 +169,38 @@ namespace TTSVoiceWizard3._0
                             {
                                 switch (messageReceived.Address.ToString())
                                 {
-                                    case "/avatar/parameters/Calc0": calc0.PerformClick(); Debug.WriteLine("it worked"); break;
+                                    case "/avatar/parameters/calculator/0": calc0.PerformClick(); Debug.WriteLine("it worked"); break;
 
-                                    case "/avatar/parameters/Calc1": calc1.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/1": calc1.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc2": calc2.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/2": calc2.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc3": calc3.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/3": calc3.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc4": calc4.PerformClick(); break;
-                                    case "/avatar/parameters/Calc5": calc5.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/4": calc4.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/5": calc5.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc6": calc6.PerformClick(); break;
-                                    case "/avatar/parameters/Calc7": calc7.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/6": calc6.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/7": calc7.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc8": calc8.PerformClick(); break;
-                                    case "/avatar/parameters/Calc9": calc9.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/8": calc8.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/9": calc9.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcOpenParen": materialButtonOpen.PerformClick(); break;
-                                    case "/avatar/parameters/CalcCloseParen": materialButtonClose.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/(": materialButtonOpen.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/)": materialButtonClose.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcPoint": materialButtonPoint.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/dot": materialButtonPoint.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcEquals": materialButtonEquals.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/equals": materialButtonEquals.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcClear": materialButtonClear.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/C": materialButtonClear.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcEntryClear": materialButtonClearEntry.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/CE": materialButtonClearEntry.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcAdd": materialButtonAdd.PerformClick(); break;
-                                    case "/avatar/parameters/CalcSub": materialButtonSub.PerformClick(); break;
-                                    case "/avatar/parameters/CalcMult": materialButtonMult.PerformClick(); break;
-                                    case "/avatar/parameters/CalcDiv": materialButtonDiv.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/plus": materialButtonAdd.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/minus": materialButtonSub.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/multiply": materialButtonMult.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/divide": materialButtonDiv.PerformClick(); break;
 
 
                                     default: break;
@@ -228,58 +228,14 @@ namespace TTSVoiceWizard3._0
             var listener = new UDPListener(9001, callback);//9001 = vrchat sender
 
         }
-        private static string SplitToLines(string value, int maximumLineLength)
-        {
-            try
-            {
-                string perfectString = "";
-                var words = value.Split(' ');
-                var line = new StringBuilder();
-
-                foreach (var word in words)
-                {
-                    //if (word.Length > maximumLineLength)
-                    //{
-                    //    perfectString += word.ToString();
-                    //  }
-                    if (line.Length + word.Length >= maximumLineLength)
-                    {
-                       // System.Diagnostics.Debug.WriteLine(line.ToString());
-                        if (line.ToString().Length <= 32)
-                        {
-                            perfectString += line.ToString();
-                            int spacesToAdd = 32 - line.ToString().Length;
-                            for (int i = 0; i < spacesToAdd; i++)
-                            {
-                                perfectString += " ";
-                            }
-
-                        }
-                        line = new StringBuilder();
-                    }
-
-                    line.AppendFormat("{0}{1}", line.Length > 0 ? " " : "", word);
-                }
-
-               // System.Diagnostics.Debug.WriteLine(line.ToString());
-                perfectString += line.ToString();
-                return perfectString;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("ERROR FOUND==========================================================wefwefefwefwfweffwefwef");
-                return "error";
-            }
-
-
-        }
+    
         public async void outputVRChat(string textstringbefore)
         {
 
 
             string numKATSyncParameters = "16";
             DateTime lastDateTime = DateTime.Now;
-            int debugDelayValue = 250;
+            int debugDelayValue = 50;
             var message0 = new OscMessage("/avatar/parameters/KAT_Visible", true);
 
 
@@ -291,10 +247,10 @@ namespace TTSVoiceWizard3._0
 
 
 
-            string textstring = SplitToLines(textstringbefore, 32);
+            //   string textstring = SplitToLines(textstringbefore, 32);
 
 
-
+            string textstring = textstringbefore;
 
 
             int stringleng = 0;
@@ -434,14 +390,13 @@ namespace TTSVoiceWizard3._0
             //  ot.outputLog(MainForm, testingthis);
 
 
-            if ((DateTime.Now - lastDateTime).Seconds <= 1)
-            {
-                //  var ot = new OutputText();
-                //  ot.outputLog(MainForm, "collision");
+         //   if ((DateTime.Now - lastDateTime).Seconds <= 1)
+          //  {
+              
 
-                Task.Delay(1555).Wait();
-            }
-            lastDateTime = DateTime.Now;
+            //    Task.Delay(1555).Wait();
+          //  }
+         //   lastDateTime = DateTime.Now;
 
            // if (currentCalculation == "")
          //   {
