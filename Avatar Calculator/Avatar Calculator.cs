@@ -88,7 +88,7 @@ namespace TTSVoiceWizard3._0
             {
                 textBoxOutput.Text = new DataTable().Compute(formattedCalculation, null).ToString();
                 currentCalculation = textBoxOutput.Text;
-                var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+                var message1 = new OscMessage("/avatar/parameters/CALC_Pointer", 255);
                 OSCSender.Send(message1);
               //  Thread.Sleep(100);
               //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
@@ -115,7 +115,7 @@ namespace TTSVoiceWizard3._0
             //  Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
             //  var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
             // OSCSender.Send(message1);
-            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+            var message1 = new OscMessage("/avatar/parameters/CALC_Pointer", 255);
             OSCSender.Send(message1);
         }
         private void button_ClearEntry_Click(object sender, EventArgs e)
@@ -131,7 +131,7 @@ namespace TTSVoiceWizard3._0
             // Re-display the calculation onto the screen
             textBoxOutput.Text = currentCalculation;
             //    Task.Run(() => outputVRChat(textBoxOutput.Text.ToString()));
-            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
+            var message1 = new OscMessage("/avatar/parameters/CALC_Pointer", 255);
             OSCSender.Send(message1);
         }
 
@@ -169,38 +169,38 @@ namespace TTSVoiceWizard3._0
                             {
                                 switch (messageReceived.Address.ToString())
                                 {
-                                    case "/avatar/parameters/Calc0": calc0.PerformClick(); Debug.WriteLine("it worked"); break;
+                                    case "/avatar/parameters/calculator/0": calc0.PerformClick(); Debug.WriteLine("it worked"); break;
 
-                                    case "/avatar/parameters/Calc1": calc1.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/1": calc1.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc2": calc2.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/2": calc2.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc3": calc3.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/3": calc3.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc4": calc4.PerformClick(); break;
-                                    case "/avatar/parameters/Calc5": calc5.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/4": calc4.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/5": calc5.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc6": calc6.PerformClick(); break;
-                                    case "/avatar/parameters/Calc7": calc7.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/6": calc6.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/7": calc7.PerformClick(); break;
 
-                                    case "/avatar/parameters/Calc8": calc8.PerformClick(); break;
-                                    case "/avatar/parameters/Calc9": calc9.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/8": calc8.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/9": calc9.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcOpenParen": materialButtonOpen.PerformClick(); break;
-                                    case "/avatar/parameters/CalcCloseParen": materialButtonClose.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/(": materialButtonOpen.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/)": materialButtonClose.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcPoint": materialButtonPoint.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/dot": materialButtonPoint.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcEquals": materialButtonEquals.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/equals": materialButtonEquals.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcClear": materialButtonClear.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/C": materialButtonClear.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcEntryClear": materialButtonClearEntry.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/CE": materialButtonClearEntry.PerformClick(); break;
 
-                                    case "/avatar/parameters/CalcAdd": materialButtonAdd.PerformClick(); break;
-                                    case "/avatar/parameters/CalcSub": materialButtonSub.PerformClick(); break;
-                                    case "/avatar/parameters/CalcMult": materialButtonMult.PerformClick(); break;
-                                    case "/avatar/parameters/CalcDiv": materialButtonDiv.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/plus": materialButtonAdd.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/minus": materialButtonSub.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/multiply": materialButtonMult.PerformClick(); break;
+                                    case "/avatar/parameters/calculator/divide": materialButtonDiv.PerformClick(); break;
 
 
                                     default: break;
@@ -228,59 +228,15 @@ namespace TTSVoiceWizard3._0
             var listener = new UDPListener(9001, callback);//9001 = vrchat sender
 
         }
-        private static string SplitToLines(string value, int maximumLineLength)
-        {
-            try
-            {
-                string perfectString = "";
-                var words = value.Split(' ');
-                var line = new StringBuilder();
-
-                foreach (var word in words)
-                {
-                    //if (word.Length > maximumLineLength)
-                    //{
-                    //    perfectString += word.ToString();
-                    //  }
-                    if (line.Length + word.Length >= maximumLineLength)
-                    {
-                       // System.Diagnostics.Debug.WriteLine(line.ToString());
-                        if (line.ToString().Length <= 32)
-                        {
-                            perfectString += line.ToString();
-                            int spacesToAdd = 32 - line.ToString().Length;
-                            for (int i = 0; i < spacesToAdd; i++)
-                            {
-                                perfectString += " ";
-                            }
-
-                        }
-                        line = new StringBuilder();
-                    }
-
-                    line.AppendFormat("{0}{1}", line.Length > 0 ? " " : "", word);
-                }
-
-               // System.Diagnostics.Debug.WriteLine(line.ToString());
-                perfectString += line.ToString();
-                return perfectString;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("ERROR FOUND==========================================================wefwefefwefwfweffwefwef");
-                return "error";
-            }
-
-
-        }
+    
         public async void outputVRChat(string textstringbefore)
         {
 
 
             string numKATSyncParameters = "16";
             DateTime lastDateTime = DateTime.Now;
-            int debugDelayValue = 250;
-            var message0 = new OscMessage("/avatar/parameters/KAT_Visible", true);
+            int debugDelayValue = 50;
+            var message0 = new OscMessage("/avatar/parameters/CALC_Visible", true);
 
 
             OSCSender.Send(message0);
@@ -291,10 +247,10 @@ namespace TTSVoiceWizard3._0
 
 
 
-            string textstring = SplitToLines(textstringbefore, 32);
+            //   string textstring = SplitToLines(textstringbefore, 32);
 
 
-
+            string textstring = textstringbefore;
 
 
             int stringleng = 0;
@@ -405,25 +361,25 @@ namespace TTSVoiceWizard3._0
             float letterFloat14 = 0;//16 mode
             float letterFloat15 = 0;//16 mode
 
-            var message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 255);
-            var message2 = new OscMessage("/avatar/parameters/KAT_CharSync0", letterFloat0);
-            var message3 = new OscMessage("/avatar/parameters/KAT_CharSync1", letterFloat1);
-            var message4 = new OscMessage("/avatar/parameters/KAT_CharSync2", letterFloat2);
-            var message5 = new OscMessage("/avatar/parameters/KAT_CharSync3", letterFloat3);
+            var message1 = new OscMessage("/avatar/parameters/CALC_Pointer", 255);
+            var message2 = new OscMessage("/avatar/parameters/CALC_CharSync0", letterFloat0);
+            var message3 = new OscMessage("/avatar/parameters/CALC_CharSync1", letterFloat1);
+            var message4 = new OscMessage("/avatar/parameters/CALC_CharSync2", letterFloat2);
+            var message5 = new OscMessage("/avatar/parameters/CALC_CharSync3", letterFloat3);
 
-            var message6 = new OscMessage("/avatar/parameters/KAT_CharSync4", letterFloat4);
-            var message7 = new OscMessage("/avatar/parameters/KAT_CharSync5", letterFloat5);
-            var message8 = new OscMessage("/avatar/parameters/KAT_CharSync6", letterFloat6);
-            var message9 = new OscMessage("/avatar/parameters/KAT_CharSync7", letterFloat7);
+            var message6 = new OscMessage("/avatar/parameters/CALC_CharSync4", letterFloat4);
+            var message7 = new OscMessage("/avatar/parameters/CALC_CharSync5", letterFloat5);
+            var message8 = new OscMessage("/avatar/parameters/CALC_CharSync6", letterFloat6);
+            var message9 = new OscMessage("/avatar/parameters/CALC_CharSync7", letterFloat7);
 
-            var message10 = new OscMessage("/avatar/parameters/KAT_CharSync0", letterFloat8);
-            var message11 = new OscMessage("/avatar/parameters/KAT_CharSync1", letterFloat9);
-            var message12 = new OscMessage("/avatar/parameters/KAT_CharSync2", letterFloat10);
-            var message13 = new OscMessage("/avatar/parameters/KAT_CharSync3", letterFloat11);
-            var message14 = new OscMessage("/avatar/parameters/KAT_CharSync4", letterFloat12);
-            var message15 = new OscMessage("/avatar/parameters/KAT_CharSync5", letterFloat13);
-            var message16 = new OscMessage("/avatar/parameters/KAT_CharSync6", letterFloat14);
-            var message17 = new OscMessage("/avatar/parameters/KAT_CharSync7", letterFloat15);
+            var message10 = new OscMessage("/avatar/parameters/CALC_CharSync0", letterFloat8);
+            var message11 = new OscMessage("/avatar/parameters/CALC_CharSync1", letterFloat9);
+            var message12 = new OscMessage("/avatar/parameters/CALC_CharSync2", letterFloat10);
+            var message13 = new OscMessage("/avatar/parameters/CALC_CharSync3", letterFloat11);
+            var message14 = new OscMessage("/avatar/parameters/CALC_CharSync4", letterFloat12);
+            var message15 = new OscMessage("/avatar/parameters/CALC_CharSync5", letterFloat13);
+            var message16 = new OscMessage("/avatar/parameters/CALC_CharSync6", letterFloat14);
+            var message17 = new OscMessage("/avatar/parameters/CALC_CharSync7", letterFloat15);
 
 
             //  var message0 = new SharpOSC.OscMessage("/avatar/parameters/KAT_Visible", true);
@@ -434,14 +390,13 @@ namespace TTSVoiceWizard3._0
             //  ot.outputLog(MainForm, testingthis);
 
 
-            if ((DateTime.Now - lastDateTime).Seconds <= 1)
-            {
-                //  var ot = new OutputText();
-                //  ot.outputLog(MainForm, "collision");
+         //   if ((DateTime.Now - lastDateTime).Seconds <= 1)
+          //  {
+              
 
-                Task.Delay(1555).Wait();
-            }
-            lastDateTime = DateTime.Now;
+            //    Task.Delay(1555).Wait();
+          //  }
+         //   lastDateTime = DateTime.Now;
 
            // if (currentCalculation == "")
          //   {
@@ -457,7 +412,7 @@ namespace TTSVoiceWizard3._0
             //  MainForm.sender3.Send(message0);
 
 
-            message1 = new OscMessage("/avatar/parameters/KAT_Pointer", 1);
+            message1 = new OscMessage("/avatar/parameters/CALC_Pointer", 1);
 
             foreach (char c in textstring)
             {
@@ -526,12 +481,12 @@ namespace TTSVoiceWizard3._0
                         {
                             Task.Delay(debugDelayValue).Wait();
                             letterFloat3 = letter;
-                            message1 = new OscMessage("/avatar/parameters/KAT_Pointer", stringPoint);
-                            message2 = new OscMessage("/avatar/parameters/KAT_CharSync0", letterFloat0);
-                            message3 = new OscMessage("/avatar/parameters/KAT_CharSync1", letterFloat1);
-                            message4 = new OscMessage("/avatar/parameters/KAT_CharSync2", letterFloat2);
-                            message5 = new OscMessage("/avatar/parameters/KAT_CharSync3", letterFloat3);
-                            message0 = new OscMessage("/avatar/parameters/KAT_Visible", true);
+                            message1 = new OscMessage("/avatar/parameters/CALC_Pointer", stringPoint);
+                            message2 = new OscMessage("/avatar/parameters/CALC_CharSync0", letterFloat0);
+                            message3 = new OscMessage("/avatar/parameters/CALC_CharSync1", letterFloat1);
+                            message4 = new OscMessage("/avatar/parameters/CALC_CharSync2", letterFloat2);
+                            message5 = new OscMessage("/avatar/parameters/CALC_CharSync3", letterFloat3);
+                            message0 = new OscMessage("/avatar/parameters/CALC_Visible", true);
 
                             OSCSender.Send(message1);
                             OSCSender.Send(message2);
@@ -570,17 +525,17 @@ namespace TTSVoiceWizard3._0
                         {
                             Task.Delay(debugDelayValue).Wait();
                             letterFloat7 = letter;
-                            message1 = new OscMessage("/avatar/parameters/KAT_Pointer", stringPoint);
-                            message2 = new OscMessage("/avatar/parameters/KAT_CharSync0", letterFloat0);
-                            message3 = new OscMessage("/avatar/parameters/KAT_CharSync1", letterFloat1);
-                            message4 = new OscMessage("/avatar/parameters/KAT_CharSync2", letterFloat2);
-                            message5 = new OscMessage("/avatar/parameters/KAT_CharSync3", letterFloat3);
+                            message1 = new OscMessage("/avatar/parameters/CALC_Pointer", stringPoint);
+                            message2 = new OscMessage("/avatar/parameters/CALC_CharSync0", letterFloat0);
+                            message3 = new OscMessage("/avatar/parameters/CALC_CharSync1", letterFloat1);
+                            message4 = new OscMessage("/avatar/parameters/CALC_CharSync2", letterFloat2);
+                            message5 = new OscMessage("/avatar/parameters/CALC_CharSync3", letterFloat3);
 
-                            message6 = new OscMessage("/avatar/parameters/KAT_CharSync4", letterFloat4);
-                            message7 = new OscMessage("/avatar/parameters/KAT_CharSync5", letterFloat5);
-                            message8 = new OscMessage("/avatar/parameters/KAT_CharSync6", letterFloat6);
-                            message9 = new OscMessage("/avatar/parameters/KAT_CharSync7", letterFloat7);
-                            message0 = new OscMessage("/avatar/parameters/KAT_Visible", true);
+                            message6 = new OscMessage("/avatar/parameters/CALC_CharSync4", letterFloat4);
+                            message7 = new OscMessage("/avatar/parameters/CALC_CharSync5", letterFloat5);
+                            message8 = new OscMessage("/avatar/parameters/CALC_CharSync6", letterFloat6);
+                            message9 = new OscMessage("/avatar/parameters/CALC_CharSync7", letterFloat7);
+                            message0 = new OscMessage("/avatar/parameters/CALC_Visible", true);
 
 
                             OSCSender.Send(message1);
@@ -640,27 +595,27 @@ namespace TTSVoiceWizard3._0
                     case 15:
                         Task.Delay(debugDelayValue).Wait();
                         letterFloat15 = letter;
-                        message1 = new OscMessage("/avatar/parameters/KAT_Pointer", stringPoint);
-                        message2 = new OscMessage("/avatar/parameters/KAT_CharSync0", letterFloat0);
-                        message3 = new OscMessage("/avatar/parameters/KAT_CharSync1", letterFloat1);
-                        message4 = new OscMessage("/avatar/parameters/KAT_CharSync2", letterFloat2);
-                        message5 = new OscMessage("/avatar/parameters/KAT_CharSync3", letterFloat3);
+                        message1 = new OscMessage("/avatar/parameters/CALC_Pointer", stringPoint);
+                        message2 = new OscMessage("/avatar/parameters/CALC_CharSync0", letterFloat0);
+                        message3 = new OscMessage("/avatar/parameters/CALC_CharSync1", letterFloat1);
+                        message4 = new OscMessage("/avatar/parameters/CALC_CharSync2", letterFloat2);
+                        message5 = new OscMessage("/avatar/parameters/CALC_CharSync3", letterFloat3);
 
-                        message6 = new OscMessage("/avatar/parameters/KAT_CharSync4", letterFloat4);
-                        message7 = new OscMessage("/avatar/parameters/KAT_CharSync5", letterFloat5);
-                        message8 = new OscMessage("/avatar/parameters/KAT_CharSync6", letterFloat6);
-                        message9 = new OscMessage("/avatar/parameters/KAT_CharSync7", letterFloat7);
+                        message6 = new OscMessage("/avatar/parameters/CALC_CharSync4", letterFloat4);
+                        message7 = new OscMessage("/avatar/parameters/CALC_CharSync5", letterFloat5);
+                        message8 = new OscMessage("/avatar/parameters/CALC_CharSync6", letterFloat6);
+                        message9 = new OscMessage("/avatar/parameters/CALC_CharSync7", letterFloat7);
 
-                        message10 = new OscMessage("/avatar/parameters/KAT_CharSync8", letterFloat8);
-                        message11 = new OscMessage("/avatar/parameters/KAT_CharSync9", letterFloat9);
-                        message12 = new OscMessage("/avatar/parameters/KAT_CharSync10", letterFloat10);
-                        message13 = new OscMessage("/avatar/parameters/KAT_CharSync11", letterFloat11);
+                        message10 = new OscMessage("/avatar/parameters/CALC_CharSync8", letterFloat8);
+                        message11 = new OscMessage("/avatar/parameters/CALC_CharSync9", letterFloat9);
+                        message12 = new OscMessage("/avatar/parameters/CALC_CharSync10", letterFloat10);
+                        message13 = new OscMessage("/avatar/parameters/CALC_CharSync11", letterFloat11);
 
-                        message14 = new OscMessage("/avatar/parameters/KAT_CharSync12", letterFloat12);
-                        message15 = new OscMessage("/avatar/parameters/KAT_CharSync13", letterFloat13);
-                        message16 = new OscMessage("/avatar/parameters/KAT_CharSync14", letterFloat14);
-                        message17 = new OscMessage("/avatar/parameters/KAT_CharSync15", letterFloat15);
-                        message0 = new OscMessage("/avatar/parameters/KAT_Visible", true);
+                        message14 = new OscMessage("/avatar/parameters/CALC_CharSync12", letterFloat12);
+                        message15 = new OscMessage("/avatar/parameters/CALC_CharSync13", letterFloat13);
+                        message16 = new OscMessage("/avatar/parameters/CALC_CharSync14", letterFloat14);
+                        message17 = new OscMessage("/avatar/parameters/KCALC_CharSync15", letterFloat15);
+                        message0 = new OscMessage("/avatar/parameters/CALC_Visible", true);
 
                         OSCSender.Send(message1);
 
