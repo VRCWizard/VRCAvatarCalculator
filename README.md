@@ -1,6 +1,14 @@
 # VRCAvatarCalculator
 Do math with a basic calculator in VRChat. You can interact with the Calculator in VR or with the desktop UI.
 
+https://user-images.githubusercontent.com/101527472/232258598-8f38b0c1-2a35-41d2-aaa2-9fdd4e142f29.mp4
+
+
+
+
+
+
+
 
 ![image](https://user-images.githubusercontent.com/101527472/229595934-64864168-13f4-4a41-b421-a5e3c035cda4.png)
 
